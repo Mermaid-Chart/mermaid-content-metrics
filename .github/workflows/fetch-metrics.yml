@@ -22,14 +22,17 @@ jobs:
           RESPONSE=$(curl -s \
             -H "api-key: $BREVO_API_KEY" \
             -H "Accept: application/json" \
-            "https://api.brevo.com/v3/contacts/stats")
+            "https://api.brevo.com/v3/contacts?limit=1")
+
+          echo "Brevo response: $RESPONSE"
 
           SUBSCRIBERS=$(echo "$RESPONSE" | python3 -c "
           import sys, json
           data = json.load(sys.stdin)
-          # total unique contacts
-          print(data.get('uniqueSubscribers', data.get('totalContacts', 'null')))
+          print(data.get('count', 'null'))
           " 2>/dev/null || echo "null")
+
+          echo "Subscriber count: $SUBSCRIBERS"
 
           NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
