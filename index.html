@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mermaid Chart — Content Metrics</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --border: #2a2d3a;
+      --text: #e2e4ed;
+      --muted: #6b7280;
+      --accent: #ff6b35;
+      --green: #22c55e;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    header {
+      max-width: 900px;
+      margin: 0 auto 2.5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    #last-updated {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .card-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .card-platform {
+      font-size: 0.7rem;
+      color: var(--muted);
+      opacity: 0.7;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .card-value.loading {
+      color: var(--muted);
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 99px;
+      font-weight: 500;
+    }
+
+    .badge.manual {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--yellow);
+    }
+
+    .badge.auto {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--green);
+    }
+
+    .section-title {
+      max-width: 900px;
+      margin: 2rem auto 0.75rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .manual-note {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      padding: 1rem 1.25rem;
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .manual-note a {
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    .manual-note a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Mermaid Chart <span>/ Content Metrics</span></h1>
+  <div id="last-updated">Loading…</div>
+</header>
+
+<p class="section-title">Email</p>
+<div class="grid">
+  <div class="card">
+    <div class="card-platform">Brevo</div>
+    <div class="card-label">Subscribers</div>
+    <div class="card-value loading" id="brevo-subscribers">—</div>
+    <span class="badge auto">auto</span>
+  </div>
+</div>
+
+<p class="section-title">Social</p>
+<div class="grid">
+  <div class="card">
+    <div class="card-platform">LinkedIn</div>
+    <div class="card-label">Followers</div>
+    <div class="card-value loading" id="linkedin-followers">—</div>
+    <span class="badge manual">manual</span>
+  </div>
+</div>
+
+<div class="manual-note">
+  <strong style="color: var(--text);">Updating manual metrics</strong><br />
+  LinkedIn followers and other manual stats are stored in
+  <a href="data/manual.json" target="_blank"><code>data/manual.json</code></a>.
+  Edit that file in GitHub each week to keep these cards current.
+</div>
+
+<script>
+  async function load() {
+    try {
+      const [auto, manual] = await Promise.all([
+        fetch(`data/automated.json?v=${Date.now()}`).then(r => r.json()),
+        fetch(`data/manual.json?v=${Date.now()}`).then(r => r.json()),
+      ]);
+
+      const fmt = n => n == null ? '—' : Number(n).toLocaleString();
+
+      const subEl = document.getElementById('brevo-subscribers');
+      subEl.textContent = fmt(auto.brevo?.subscribers);
+      if (auto.brevo?.subscribers != null) subEl.classList.remove('loading');
+
+      const liEl = document.getElementById('linkedin-followers');
+      liEl.textContent = fmt(manual.linkedin?.followers);
+      if (manual.linkedin?.followers) liEl.classList.remove('loading');
+
+      const updated = auto.last_updated
+        ? new Date(auto.last_updated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : (manual.week ?? 'Not yet fetched');
+      document.getElementById('last-updated').textContent = `Updated ${updated}`;
+
+    } catch (e) {
+      document.getElementById('last-updated').textContent = 'Error loading data';
+      console.error(e);
+    }
+  }
+
+  load();
+</script>
+
+</body>
+</html>

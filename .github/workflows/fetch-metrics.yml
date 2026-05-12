@@ -1,0 +1,83 @@
+name: Fetch Content Metrics
+
+on:
+  schedule:
+    # Every Monday at 08:00 UTC
+    - cron: "0 8 * * 1"
+  workflow_dispatch: # allow manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Brevo subscriber count
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          RESPONSE=$(curl -s \
+            -H "api-key: $BREVO_API_KEY" \
+            -H "Accept: application/json" \
+            "https://api.brevo.com/v3/contacts/stats")
+
+          SUBSCRIBERS=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          # total unique contacts
+          print(data.get('uniqueSubscribers', data.get('totalContacts', 'null')))
+          " 2>/dev/null || echo "null")
+
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          python3 - <<EOF
+          import json
+
+          with open('data/automated.json', 'r') as f:
+              data = json.load(f)
+
+          data['brevo']['subscribers'] = $SUBSCRIBERS if "$SUBSCRIBERS" != "null" else None
+          data['last_updated'] = "$NOW"
+
+          with open('data/automated.json', 'w') as f:
+              json.dump(data, f, indent=2)
+          EOF
+
+      - name: Append to history
+        run: |
+          python3 - <<'EOF'
+          import json
+          from datetime import date
+
+          with open('data/automated.json') as f:
+              auto = json.load(f)
+          with open('data/manual.json') as f:
+              manual = json.load(f)
+          with open('data/history.json') as f:
+              history = json.load(f)
+
+          week = str(date.today())
+          entry = {
+              "week": week,
+              "brevo_subscribers": auto.get("brevo", {}).get("subscribers"),
+              "linkedin_followers": manual.get("linkedin", {}).get("followers"),
+          }
+
+          # replace existing entry for this week if re-run
+          history = [h for h in history if h.get("week") != week]
+          history.append(entry)
+          history.sort(key=lambda h: h["week"])
+
+          with open('data/history.json', 'w') as f:
+              json.dump(history, f, indent=2)
+          EOF
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/automated.json data/history.json
+          git diff --cached --quiet || git commit -m "chore: weekly metrics update $(date -u +%Y-%m-%d)"
