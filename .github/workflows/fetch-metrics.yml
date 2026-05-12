@@ -15,24 +15,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch Brevo subscriber count
+      - name: Fetch Brevo email campaign count
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
         run: |
           RESPONSE=$(curl -s \
             -H "api-key: $BREVO_API_KEY" \
             -H "Accept: application/json" \
-            "https://api.brevo.com/v3/contacts?limit=1")
+            "https://api.brevo.com/v3/emailCampaigns?limit=1")
 
           echo "Brevo response: $RESPONSE"
 
-          SUBSCRIBERS=$(echo "$RESPONSE" | python3 -c "
+          CAMPAIGNS=$(echo "$RESPONSE" | python3 -c "
           import sys, json
           data = json.load(sys.stdin)
           print(data.get('count', 'null'))
           " 2>/dev/null || echo "null")
 
-          echo "Subscriber count: $SUBSCRIBERS"
+          echo "Campaign count: $CAMPAIGNS"
 
           NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
@@ -42,7 +42,7 @@ jobs:
           with open('data/automated.json', 'r') as f:
               data = json.load(f)
 
-          data['brevo']['subscribers'] = $SUBSCRIBERS if "$SUBSCRIBERS" != "null" else None
+          data['brevo']['email_campaigns'] = $CAMPAIGNS if "$CAMPAIGNS" != "null" else None
           data['last_updated'] = "$NOW"
 
           with open('data/automated.json', 'w') as f:
@@ -65,7 +65,7 @@ jobs:
           week = str(date.today())
           entry = {
               "week": week,
-              "brevo_subscribers": auto.get("brevo", {}).get("subscribers"),
+              "brevo_email_campaigns": auto.get("brevo", {}).get("email_campaigns"),
               "linkedin_followers": manual.get("linkedin", {}).get("followers"),
           }
 

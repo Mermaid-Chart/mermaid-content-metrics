@@ -158,8 +158,8 @@
 <div class="grid">
   <div class="card">
     <div class="card-platform">Brevo</div>
-    <div class="card-label">Subscribers</div>
-    <div class="card-value loading" id="brevo-subscribers">—</div>
+    <div class="card-label">Email Campaigns</div>
+    <div class="card-value loading" id="brevo-campaigns">—</div>
     <span class="badge auto">auto</span>
   </div>
 </div>
@@ -191,9 +191,9 @@
 
       const fmt = n => n == null ? '—' : Number(n).toLocaleString();
 
-      const subEl = document.getElementById('brevo-subscribers');
-      subEl.textContent = fmt(auto.brevo?.subscribers);
-      if (auto.brevo?.subscribers != null) subEl.classList.remove('loading');
+      const subEl = document.getElementById('brevo-campaigns');
+      subEl.textContent = fmt(auto.brevo?.email_campaigns);
+      if (auto.brevo?.email_campaigns != null) subEl.classList.remove('loading');
 
       const liEl = document.getElementById('linkedin-followers');
       liEl.textContent = fmt(manual.linkedin?.followers);
