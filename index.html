@@ -145,6 +145,49 @@
     .manual-note a:hover {
       text-decoration: underline;
     }
+
+    .metrics-table {
+      max-width: 900px;
+      margin: 0 auto 1rem;
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .metrics-table th {
+      text-align: left;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .metrics-table td {
+      padding: 0.6rem 0.9rem;
+      border-bottom: 1px solid rgba(42, 45, 58, 0.6);
+      color: var(--text);
+    }
+
+    .metrics-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .metrics-table tbody tr:hover td {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .metrics-table .campaign-name {
+      max-width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rate-green { color: var(--green); }
+    .rate-yellow { color: var(--yellow); }
+    .rate-red { color: var(--red); }
   </style>
 </head>
 <body>
@@ -162,7 +205,57 @@
     <div class="card-value loading" id="brevo-campaigns">—</div>
     <span class="badge auto">auto</span>
   </div>
+  <div class="card">
+    <div class="card-platform">Brevo</div>
+    <div class="card-label">Subscribers</div>
+    <div class="card-value loading" id="brevo-subscribers">—</div>
+    <span class="badge auto">auto</span>
+  </div>
+  <div class="card">
+    <div class="card-platform">Brevo</div>
+    <div class="card-label">Avg Open Rate</div>
+    <div class="card-value loading" id="brevo-open-rate">—</div>
+    <span class="badge auto">auto</span>
+  </div>
+  <div class="card">
+    <div class="card-platform">Brevo</div>
+    <div class="card-label">Avg Click Rate</div>
+    <div class="card-value loading" id="brevo-click-rate">—</div>
+    <span class="badge auto">auto</span>
+  </div>
 </div>
+
+<p class="section-title">Recent Sends</p>
+<table class="metrics-table" id="recent-sends-table">
+  <thead>
+    <tr>
+      <th>Campaign</th>
+      <th>Date</th>
+      <th>Delivered</th>
+      <th>Open Rate</th>
+      <th>Click Rate</th>
+    </tr>
+  </thead>
+  <tbody id="recent-sends-body">
+    <tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">Loading…</td></tr>
+  </tbody>
+</table>
+
+<p class="section-title">Monthly Newsletter Metrics</p>
+<table class="metrics-table" id="monthly-table">
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Sends</th>
+      <th>Avg Open Rate</th>
+      <th>Avg Click Rate</th>
+      <th>Total Delivered</th>
+    </tr>
+  </thead>
+  <tbody id="monthly-body">
+    <tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">Loading…</td></tr>
+  </tbody>
+</table>
 
 <p class="section-title">Social</p>
 <div class="grid">
@@ -182,6 +275,74 @@
 </div>
 
 <script>
+  const fmt = n => n == null ? '—' : Number(n).toLocaleString();
+  const fmtPct = n => n == null ? '—' : n.toFixed(1) + '%';
+
+  function rateClass(value, greenThreshold, yellowThreshold) {
+    if (value == null) return '';
+    if (value >= greenThreshold) return 'rate-green';
+    if (value >= yellowThreshold) return 'rate-yellow';
+    return 'rate-red';
+  }
+
+  function buildRecentSendsTable(campaigns) {
+    const tbody = document.getElementById('recent-sends-body');
+    if (!campaigns || campaigns.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">No data yet</td></tr>';
+      return;
+    }
+    tbody.innerHTML = campaigns.map(c => {
+      const openCls = rateClass(c.open_rate, 30, 15);
+      const clickCls = rateClass(c.click_rate, 3, 1);
+      const date = c.sent_date
+        ? new Date(c.sent_date + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
+        : '—';
+      return `<tr>
+        <td class="campaign-name" title="${c.name}">${c.name || '—'}</td>
+        <td>${date}</td>
+        <td>${fmt(c.delivered)}</td>
+        <td class="${openCls}">${fmtPct(c.open_rate)}</td>
+        <td class="${clickCls}">${fmtPct(c.click_rate)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function buildMonthlyTable(campaigns) {
+    const tbody = document.getElementById('monthly-body');
+    if (!campaigns || campaigns.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">No data yet</td></tr>';
+      return;
+    }
+
+    const months = {};
+    for (const c of campaigns) {
+      if (!c.sent_date) continue;
+      const month = c.sent_date.slice(0, 7); // YYYY-MM
+      if (!months[month]) months[month] = { sends: 0, delivered: 0, opens: 0, clicks: 0 };
+      months[month].sends++;
+      months[month].delivered += c.delivered || 0;
+      months[month].opens += c.unique_opens || 0;
+      months[month].clicks += c.unique_clicks || 0;
+    }
+
+    const sorted = Object.keys(months).sort().reverse();
+    tbody.innerHTML = sorted.map(m => {
+      const d = months[m];
+      const openRate = d.delivered > 0 ? d.opens / d.delivered * 100 : null;
+      const clickRate = d.delivered > 0 ? d.clicks / d.delivered * 100 : null;
+      const openCls = rateClass(openRate, 30, 15);
+      const clickCls = rateClass(clickRate, 3, 1);
+      const label = new Date(m + '-01T00:00:00Z').toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+      return `<tr>
+        <td>${label}</td>
+        <td>${d.sends}</td>
+        <td class="${openCls}">${openRate != null ? openRate.toFixed(1) + '%' : '—'}</td>
+        <td class="${clickCls}">${clickRate != null ? clickRate.toFixed(1) + '%' : '—'}</td>
+        <td>${fmt(d.delivered)}</td>
+      </tr>`;
+    }).join('');
+  }
+
   async function load() {
     try {
       const [auto, manual] = await Promise.all([
@@ -189,15 +350,23 @@
         fetch(`data/manual.json?v=${Date.now()}`).then(r => r.json()),
       ]);
 
-      const fmt = n => n == null ? '—' : Number(n).toLocaleString();
+      const setCard = (id, value) => {
+        const el = document.getElementById(id);
+        el.textContent = value;
+        if (value !== '—') el.classList.remove('loading');
+      };
 
-      const subEl = document.getElementById('brevo-campaigns');
-      subEl.textContent = fmt(auto.brevo?.email_campaigns);
-      if (auto.brevo?.email_campaigns != null) subEl.classList.remove('loading');
+      setCard('brevo-campaigns', fmt(auto.brevo?.email_campaigns));
+      setCard('brevo-subscribers', fmt(auto.brevo?.subscriber_count));
+      setCard('brevo-open-rate', fmtPct(auto.brevo?.avg_open_rate));
+      setCard('brevo-click-rate', fmtPct(auto.brevo?.avg_click_rate));
 
       const liEl = document.getElementById('linkedin-followers');
       liEl.textContent = fmt(manual.linkedin?.followers);
       if (manual.linkedin?.followers) liEl.classList.remove('loading');
+
+      buildRecentSendsTable(auto.brevo?.recent_campaigns);
+      buildMonthlyTable(auto.brevo?.recent_campaigns);
 
       const updated = auto.last_updated
         ? new Date(auto.last_updated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })

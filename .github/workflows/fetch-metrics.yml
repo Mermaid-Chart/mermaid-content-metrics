@@ -15,39 +15,97 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch Brevo email campaign count
+      - name: Fetch Brevo metrics
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
         run: |
-          RESPONSE=$(curl -s \
+          # Fetch total campaign count
+          curl -s \
             -H "api-key: $BREVO_API_KEY" \
             -H "Accept: application/json" \
-            "https://api.brevo.com/v3/emailCampaigns?limit=1")
+            "https://api.brevo.com/v3/emailCampaigns?limit=1" \
+            > /tmp/brevo_campaigns.json
+          echo "Campaigns response:"; cat /tmp/brevo_campaigns.json
 
-          echo "Brevo response: $RESPONSE"
+          # Fetch subscriber count
+          curl -s \
+            -H "api-key: $BREVO_API_KEY" \
+            -H "Accept: application/json" \
+            "https://api.brevo.com/v3/contacts?limit=1" \
+            > /tmp/brevo_contacts.json
+          echo "Contacts response:"; cat /tmp/brevo_contacts.json
 
-          CAMPAIGNS=$(echo "$RESPONSE" | python3 -c "
-          import sys, json
-          data = json.load(sys.stdin)
-          print(data.get('count', 'null'))
-          " 2>/dev/null || echo "null")
-
-          echo "Campaign count: $CAMPAIGNS"
+          # Fetch last 20 sent campaigns with stats
+          curl -s \
+            -H "api-key: $BREVO_API_KEY" \
+            -H "Accept: application/json" \
+            "https://api.brevo.com/v3/emailCampaigns?status=sent&limit=20" \
+            > /tmp/brevo_sent.json
+          echo "Sent campaigns response:"; cat /tmp/brevo_sent.json
 
           NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          python3 - <<EOF
-          import json
+          python3 - "$NOW" <<'PYEOF'
+          import sys, json
 
-          with open('data/automated.json', 'r') as f:
+          now = sys.argv[1]
+
+          with open('data/automated.json') as f:
               data = json.load(f)
 
-          data['brevo']['email_campaigns'] = $CAMPAIGNS if "$CAMPAIGNS" != "null" else None
-          data['last_updated'] = "$NOW"
+          try:
+              campaigns_data = json.load(open('/tmp/brevo_campaigns.json'))
+              data['brevo']['email_campaigns'] = campaigns_data.get('count')
+          except Exception as e:
+              print(f"campaigns parse error: {e}")
+
+          try:
+              contacts_data = json.load(open('/tmp/brevo_contacts.json'))
+              data['brevo']['subscriber_count'] = contacts_data.get('count')
+          except Exception as e:
+              print(f"contacts parse error: {e}")
+
+          try:
+              sent_data = json.load(open('/tmp/brevo_sent.json'))
+              campaigns = sent_data.get('campaigns', [])
+              campaigns.sort(key=lambda c: c.get('sentDate', ''), reverse=True)
+              campaigns = campaigns[:10]
+              recent = []
+              total_delivered = 0
+              total_opens = 0
+              total_clicks = 0
+              for c in campaigns:
+                  stats = c.get('statistics', {}).get('globalStats', {})
+                  delivered = stats.get('delivered', 0) or 0
+                  opens = stats.get('uniqueViews', 0) or 0
+                  clicks = stats.get('clickers', 0) or 0
+                  open_rate = round(opens / delivered * 100, 1) if delivered > 0 else None
+                  click_rate = round(clicks / delivered * 100, 1) if delivered > 0 else None
+                  recent.append({
+                      'id': c.get('id'),
+                      'name': c.get('name', ''),
+                      'subject': c.get('subject', ''),
+                      'sent_date': c.get('sentDate', '')[:10] if c.get('sentDate') else '',
+                      'delivered': delivered,
+                      'unique_opens': opens,
+                      'unique_clicks': clicks,
+                      'open_rate': open_rate,
+                      'click_rate': click_rate,
+                  })
+                  total_delivered += delivered
+                  total_opens += opens
+                  total_clicks += clicks
+              data['brevo']['recent_campaigns'] = recent
+              data['brevo']['avg_open_rate'] = round(total_opens / total_delivered * 100, 1) if total_delivered > 0 else None
+              data['brevo']['avg_click_rate'] = round(total_clicks / total_delivered * 100, 1) if total_delivered > 0 else None
+          except Exception as e:
+              print(f"sent campaigns parse error: {e}")
+
+          data['last_updated'] = now
 
           with open('data/automated.json', 'w') as f:
               json.dump(data, f, indent=2)
-          EOF
+          PYEOF
 
       - name: Append to history
         run: |
@@ -66,6 +124,9 @@ jobs:
           entry = {
               "week": week,
               "brevo_email_campaigns": auto.get("brevo", {}).get("email_campaigns"),
+              "brevo_subscriber_count": auto.get("brevo", {}).get("subscriber_count"),
+              "brevo_avg_open_rate": auto.get("brevo", {}).get("avg_open_rate"),
+              "brevo_avg_click_rate": auto.get("brevo", {}).get("avg_click_rate"),
               "linkedin_followers": manual.get("linkedin", {}).get("followers"),
           }
 
