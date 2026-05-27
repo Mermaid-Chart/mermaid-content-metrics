@@ -1,10 +1,10 @@
 {
   "brevo": {
-    "email_campaigns": null,
+    "email_campaigns": 86,
     "subscriber_count": null,
     "avg_open_rate": null,
     "avg_click_rate": null,
     "recent_campaigns": []
   },
-  "last_updated": null
+  "last_updated": "2026-05-27T16:38:32Z"
 }
