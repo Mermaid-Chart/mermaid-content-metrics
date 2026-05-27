@@ -39,7 +39,7 @@ jobs:
           curl -s \
             -H "api-key: $BREVO_API_KEY" \
             -H "Accept: application/json" \
-            "https://api.brevo.com/v3/emailCampaigns?status=sent&limit=20" \
+            "https://api.brevo.com/v3/emailCampaigns?status=sent&limit=20&statistics=globalStats" \
             > /tmp/brevo_sent.json
           echo "Sent campaigns response:"; cat /tmp/brevo_sent.json
 
@@ -78,14 +78,16 @@ jobs:
                   stats = c.get('statistics', {}).get('globalStats', {})
                   delivered = stats.get('delivered', 0) or 0
                   opens = stats.get('uniqueViews', 0) or 0
-                  clicks = stats.get('clickers', 0) or 0
-                  open_rate = round(opens / delivered * 100, 1) if delivered > 0 else None
+                  clicks = stats.get('uniqueClicks', 0) or 0
+                  sent = stats.get('sent', 0) or 0
+                  open_rate = round(stats['opensRate'], 1) if stats.get('opensRate') is not None else (round(opens / delivered * 100, 1) if delivered > 0 else None)
                   click_rate = round(clicks / delivered * 100, 1) if delivered > 0 else None
                   recent.append({
                       'id': c.get('id'),
                       'name': c.get('name', ''),
                       'subject': c.get('subject', ''),
                       'sent_date': c.get('sentDate', '')[:10] if c.get('sentDate') else '',
+                      'sent': sent,
                       'delivered': delivered,
                       'unique_opens': opens,
                       'unique_clicks': clicks,
