@@ -92,6 +92,10 @@ jobs:
                   opens = stats.get('uniqueViews', 0) or 0
                   clicks = stats.get('uniqueClicks', 0) or 0
                   sent_count = stats.get('sent', 0) or 0
+                  hard_bounces = stats.get('hardBounces', 0) or 0
+                  soft_bounces = stats.get('softBounces', 0) or 0
+                  unsubscriptions = stats.get('unsubscriptions', 0) or 0
+                  complaints = stats.get('complaints', 0) or 0
                   open_rate = round(stats['opensRate'], 1) if stats.get('opensRate') is not None else (round(opens / delivered * 100, 1) if delivered > 0 else None)
                   click_rate = round(clicks / delivered * 100, 1) if delivered > 0 else None
                   recent.append({
@@ -105,6 +109,10 @@ jobs:
                       'unique_clicks': clicks,
                       'open_rate': open_rate,
                       'click_rate': click_rate,
+                      'hard_bounces': hard_bounces,
+                      'soft_bounces': soft_bounces,
+                      'unsubscriptions': unsubscriptions,
+                      'complaints': complaints,
                   })
                   total_delivered += delivered
                   total_opens += opens

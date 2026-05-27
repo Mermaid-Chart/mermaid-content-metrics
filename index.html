@@ -10,6 +10,7 @@
     :root {
       --bg: #0f1117;
       --surface: #1a1d27;
+      --surface2: #21242f;
       --border: #2a2d3a;
       --text: #e2e4ed;
       --muted: #6b7280;
@@ -17,6 +18,7 @@
       --green: #22c55e;
       --red: #ef4444;
       --yellow: #f59e0b;
+      --blue: #3b82f6;
     }
 
     body {
@@ -24,12 +26,13 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       min-height: 100vh;
-      padding: 2rem 1.5rem;
+      padding: 2rem 1.5rem 4rem;
     }
 
+    /* ── Header ── */
     header {
-      max-width: 900px;
-      margin: 0 auto 2.5rem;
+      max-width: 960px;
+      margin: 0 auto 1.75rem;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -37,26 +40,56 @@
       gap: 0.5rem;
     }
 
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+    h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; }
+    h1 span { color: var(--accent); }
+    #last-updated { font-size: 0.8rem; color: var(--muted); }
+
+    /* ── Tab navigation ── */
+    .tab-nav {
+      max-width: 960px;
+      margin: 0 auto 2rem;
+      display: flex;
+      border-bottom: 1px solid var(--border);
     }
 
-    h1 span {
-      color: var(--accent);
-    }
-
-    #last-updated {
-      font-size: 0.8rem;
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 500;
       color: var(--muted);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
     }
 
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--text); border-bottom-color: var(--accent); }
+
+    /* ── Tab panes ── */
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* ── Section title ── */
+    .section-title {
+      max-width: 960px;
+      margin: 2rem auto 0.75rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    /* ── Cards grid ── */
     .grid {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
       gap: 1rem;
     }
 
@@ -67,20 +100,8 @@
       padding: 1.25rem 1.5rem;
     }
 
-    .card-label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 0.6rem;
-    }
-
-    .card-platform {
-      font-size: 0.7rem;
-      color: var(--muted);
-      opacity: 0.7;
-      margin-bottom: 0.25rem;
-    }
+    .card-platform { font-size: 0.7rem; color: var(--muted); opacity: 0.7; margin-bottom: 0.25rem; }
+    .card-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
 
     .card-value {
       font-size: 2rem;
@@ -89,11 +110,7 @@
       line-height: 1;
     }
 
-    .card-value.loading {
-      color: var(--muted);
-      font-size: 1.4rem;
-      font-weight: 400;
-    }
+    .card-value.loading { color: var(--muted); font-size: 1.4rem; font-weight: 400; }
 
     .badge {
       display: inline-block;
@@ -104,29 +121,131 @@
       font-weight: 500;
     }
 
-    .badge.manual {
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--yellow);
+    .badge.auto   { background: rgba(34, 197, 94, 0.12); color: var(--green); }
+    .badge.manual { background: rgba(245, 158, 11, 0.15); color: var(--yellow); }
+    .badge.soon   { background: rgba(107, 114, 128, 0.12); color: var(--muted); }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      max-width: 960px;
+      margin: 1.75rem auto 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
     }
 
-    .badge.auto {
-      background: rgba(34, 197, 94, 0.12);
-      color: var(--green);
+    .filter-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-right: 0.25rem; }
+
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.28rem 0.75rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
     }
 
-    .section-title {
-      max-width: 900px;
-      margin: 2rem auto 0.75rem;
-      font-size: 0.75rem;
+    .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+    .filter-btn.active { border-color: var(--accent); color: var(--text); background: rgba(255, 107, 53, 0.08); }
+
+    .filter-inputs {
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .filter-inputs.visible { display: flex; }
+
+    .filter-inputs span { font-size: 0.78rem; color: var(--muted); }
+
+    .filter-inputs input[type="date"] {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.28rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text);
+      outline: none;
+      color-scheme: dark;
+    }
+
+    .filter-inputs input[type="date"]:focus { border-color: var(--accent); }
+
+    /* ── Tables ── */
+    .table-wrap {
+      max-width: 960px;
+      margin: 0 auto 1rem;
+      overflow-x: auto;
+    }
+
+    .metrics-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .metrics-table th {
+      text-align: left;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.69rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.07em;
       color: var(--muted);
       border-bottom: 1px solid var(--border);
-      padding-bottom: 0.5rem;
+      white-space: nowrap;
     }
 
+    .metrics-table td {
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid rgba(42, 45, 58, 0.6);
+      color: var(--text);
+    }
+
+    .metrics-table tr:last-child td { border-bottom: none; }
+    .metrics-table tbody tr:hover td { background: rgba(255,255,255,0.025); }
+
+    .metrics-table tbody tr.clickable { cursor: pointer; }
+
+    .campaign-name {
+      max-width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .row-hint {
+      color: var(--muted);
+      font-size: 0.75rem;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .metrics-table tbody tr.clickable:hover .row-hint { opacity: 1; }
+
+    .rate-green { color: var(--green); font-weight: 500; }
+    .rate-yellow { color: var(--yellow); font-weight: 500; }
+    .rate-red { color: var(--red); font-weight: 500; }
+
+    /* ── Placeholder state ── */
+    .placeholder-note {
+      max-width: 960px;
+      margin: 1.5rem auto 0;
+      padding: 1.25rem 1.5rem;
+      background: rgba(107, 114, 128, 0.05);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ── Manual note ── */
     .manual-note {
-      max-width: 900px;
+      max-width: 960px;
       margin: 2rem auto 0;
       padding: 1rem 1.25rem;
       background: rgba(245, 158, 11, 0.06);
@@ -137,57 +256,106 @@
       line-height: 1.6;
     }
 
-    .manual-note a {
-      color: var(--yellow);
-      text-decoration: none;
+    .manual-note a { color: var(--yellow); text-decoration: none; }
+    .manual-note a:hover { text-decoration: underline; }
+
+    /* ── Campaign Modal ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 1rem;
+      backdrop-filter: blur(2px);
     }
 
-    .manual-note a:hover {
-      text-decoration: underline;
-    }
+    .modal-backdrop.hidden { display: none; }
 
-    .metrics-table {
-      max-width: 900px;
-      margin: 0 auto 1rem;
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem 2rem;
+      max-width: 580px;
       width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
-    .metrics-table th {
-      text-align: left;
-      padding: 0.55rem 0.9rem;
-      font-size: 0.7rem;
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-name { font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+    .modal-subject { font-size: 0.84rem; color: var(--muted); margin-top: 0.3rem; font-style: italic; }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+      padding: 0.1rem 0.25rem;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal-date {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 1rem 0 1.25rem;
+    }
+
+    .modal-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .stat-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.07em;
       color: var(--muted);
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.35rem;
     }
 
-    .metrics-table td {
-      padding: 0.6rem 0.9rem;
-      border-bottom: 1px solid rgba(42, 45, 58, 0.6);
-      color: var(--text);
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
     }
 
-    .metrics-table tr:last-child td {
-      border-bottom: none;
-    }
+    .stat-value.rate-green { color: var(--green); }
+    .stat-value.rate-yellow { color: var(--yellow); }
+    .stat-value.rate-red { color: var(--red); }
 
-    .metrics-table tbody tr:hover td {
-      background: rgba(255,255,255,0.03);
+    .modal-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.25rem 0;
     }
-
-    .metrics-table .campaign-name {
-      max-width: 260px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .rate-green { color: var(--green); }
-    .rate-yellow { color: var(--yellow); }
-    .rate-red { color: var(--red); }
   </style>
 </head>
 <body>
@@ -197,85 +365,228 @@
   <div id="last-updated">Loading…</div>
 </header>
 
-<p class="section-title">Email</p>
-<div class="grid">
-  <div class="card">
-    <div class="card-platform">Brevo</div>
-    <div class="card-label">Email Campaigns</div>
-    <div class="card-value loading" id="brevo-campaigns">—</div>
-    <span class="badge auto">auto</span>
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="brevo">Brevo</button>
+  <button class="tab-btn" data-tab="blog">Blog</button>
+  <button class="tab-btn" data-tab="discord">Discord</button>
+  <button class="tab-btn" data-tab="social">Social</button>
+</nav>
+
+<!-- ── Brevo ── -->
+<div id="tab-brevo" class="tab-pane active">
+
+  <p class="section-title">Overview</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-platform">Brevo</div>
+      <div class="card-label">Email Campaigns</div>
+      <div class="card-value loading" id="brevo-campaigns">—</div>
+      <span class="badge auto">auto</span>
+    </div>
+    <div class="card">
+      <div class="card-platform">Brevo</div>
+      <div class="card-label">Subscribers</div>
+      <div class="card-value loading" id="brevo-subscribers">—</div>
+      <span class="badge auto">auto</span>
+    </div>
+    <div class="card">
+      <div class="card-platform">Brevo</div>
+      <div class="card-label">Avg Open Rate</div>
+      <div class="card-value loading" id="brevo-open-rate">—</div>
+      <span class="badge auto">auto</span>
+    </div>
+    <div class="card">
+      <div class="card-platform">Brevo</div>
+      <div class="card-label">Avg Click Rate</div>
+      <div class="card-value loading" id="brevo-click-rate">—</div>
+      <span class="badge auto">auto</span>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-platform">Brevo</div>
-    <div class="card-label">Subscribers</div>
-    <div class="card-value loading" id="brevo-subscribers">—</div>
-    <span class="badge auto">auto</span>
+
+  <div class="filter-bar">
+    <span class="filter-label">Filter</span>
+    <button class="filter-btn active" id="filter-all">All time</button>
+    <button class="filter-btn" id="filter-custom">Custom range</button>
+    <div class="filter-inputs" id="filter-inputs">
+      <input type="date" id="filter-from" />
+      <span>→</span>
+      <input type="date" id="filter-to" />
+    </div>
   </div>
-  <div class="card">
-    <div class="card-platform">Brevo</div>
-    <div class="card-label">Avg Open Rate</div>
-    <div class="card-value loading" id="brevo-open-rate">—</div>
-    <span class="badge auto">auto</span>
+
+  <p class="section-title">Recent Sends</p>
+  <div class="table-wrap">
+    <table class="metrics-table">
+      <thead>
+        <tr>
+          <th>Campaign</th>
+          <th>Date</th>
+          <th>Delivered</th>
+          <th>Open Rate</th>
+          <th>Click Rate</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="recent-sends-body">
+        <tr><td colspan="6" style="color:var(--muted);padding:1rem 0.9rem">Loading…</td></tr>
+      </tbody>
+    </table>
   </div>
-  <div class="card">
-    <div class="card-platform">Brevo</div>
-    <div class="card-label">Avg Click Rate</div>
-    <div class="card-value loading" id="brevo-click-rate">—</div>
-    <span class="badge auto">auto</span>
+
+  <p class="section-title">Monthly Metrics</p>
+  <div class="table-wrap">
+    <table class="metrics-table">
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Sends</th>
+          <th>Avg Open Rate</th>
+          <th>Avg Click Rate</th>
+          <th>Total Delivered</th>
+        </tr>
+      </thead>
+      <tbody id="monthly-body">
+        <tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">Loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ── Blog ── -->
+<div id="tab-blog" class="tab-pane">
+  <p class="section-title">Overview</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-platform">Blog</div>
+      <div class="card-label">Total Posts</div>
+      <div class="card-value loading">—</div>
+      <span class="badge soon">coming soon</span>
+    </div>
+    <div class="card">
+      <div class="card-platform">Blog</div>
+      <div class="card-label">Monthly Visitors</div>
+      <div class="card-value loading">—</div>
+      <span class="badge soon">coming soon</span>
+    </div>
+    <div class="card">
+      <div class="card-platform">Blog</div>
+      <div class="card-label">Avg Read Time</div>
+      <div class="card-value loading">—</div>
+      <span class="badge soon">coming soon</span>
+    </div>
+  </div>
+  <div class="placeholder-note">
+    Blog metrics are not yet connected. Wire up a data source to populate these cards.
   </div>
 </div>
 
-<p class="section-title">Recent Sends</p>
-<table class="metrics-table" id="recent-sends-table">
-  <thead>
-    <tr>
-      <th>Campaign</th>
-      <th>Date</th>
-      <th>Delivered</th>
-      <th>Open Rate</th>
-      <th>Click Rate</th>
-    </tr>
-  </thead>
-  <tbody id="recent-sends-body">
-    <tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">Loading…</td></tr>
-  </tbody>
-</table>
-
-<p class="section-title">Monthly Newsletter Metrics</p>
-<table class="metrics-table" id="monthly-table">
-  <thead>
-    <tr>
-      <th>Month</th>
-      <th>Sends</th>
-      <th>Avg Open Rate</th>
-      <th>Avg Click Rate</th>
-      <th>Total Delivered</th>
-    </tr>
-  </thead>
-  <tbody id="monthly-body">
-    <tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">Loading…</td></tr>
-  </tbody>
-</table>
-
-<p class="section-title">Social</p>
-<div class="grid">
-  <div class="card">
-    <div class="card-platform">LinkedIn</div>
-    <div class="card-label">Followers</div>
-    <div class="card-value loading" id="linkedin-followers">—</div>
-    <span class="badge manual">manual</span>
+<!-- ── Discord ── -->
+<div id="tab-discord" class="tab-pane">
+  <p class="section-title">Overview</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-platform">Discord</div>
+      <div class="card-label">Server Members</div>
+      <div class="card-value loading">—</div>
+      <span class="badge soon">coming soon</span>
+    </div>
+    <div class="card">
+      <div class="card-platform">Discord</div>
+      <div class="card-label">Active Members (30d)</div>
+      <div class="card-value loading">—</div>
+      <span class="badge soon">coming soon</span>
+    </div>
+  </div>
+  <div class="placeholder-note">
+    Discord metrics are not yet connected. Wire up a data source to populate these cards.
   </div>
 </div>
 
-<div class="manual-note">
-  <strong style="color: var(--text);">Updating manual metrics</strong><br />
-  LinkedIn followers and other manual stats are stored in
-  <a href="data/manual.json" target="_blank"><code>data/manual.json</code></a>.
-  Edit that file in GitHub each week to keep these cards current.
+<!-- ── Social ── -->
+<div id="tab-social" class="tab-pane">
+  <p class="section-title">Overview</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-platform">LinkedIn</div>
+      <div class="card-label">Followers</div>
+      <div class="card-value loading" id="linkedin-followers">—</div>
+      <span class="badge manual">manual</span>
+    </div>
+  </div>
+  <div class="manual-note">
+    <strong style="color: var(--text);">Updating manual metrics</strong><br />
+    LinkedIn followers and other manual stats are stored in
+    <a href="data/manual.json" target="_blank"><code>data/manual.json</code></a>.
+    Edit that file in GitHub each week to keep these cards current.
+  </div>
+</div>
+
+<!-- ── Campaign Modal ── -->
+<div id="campaign-modal" class="modal-backdrop hidden">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <div>
+        <div class="modal-name" id="modal-name">—</div>
+        <div class="modal-subject" id="modal-subject"></div>
+      </div>
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    </div>
+    <div class="modal-date" id="modal-date"></div>
+
+    <div class="modal-stats">
+      <div class="stat-item">
+        <div class="stat-label">Sent</div>
+        <div class="stat-value" id="modal-sent">—</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Delivered</div>
+        <div class="stat-value" id="modal-delivered">—</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Unique Opens</div>
+        <div class="stat-value" id="modal-opens">—</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Unique Clicks</div>
+        <div class="stat-value" id="modal-clicks">—</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Open Rate</div>
+        <div class="stat-value" id="modal-open-rate">—</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Click Rate</div>
+        <div class="stat-value" id="modal-click-rate">—</div>
+      </div>
+    </div>
+
+    <hr class="modal-divider" />
+
+    <div class="modal-stats">
+      <div class="stat-item">
+        <div class="stat-label">Hard Bounces</div>
+        <div class="stat-value" id="modal-hard-bounces">—</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Soft Bounces</div>
+        <div class="stat-value" id="modal-soft-bounces">—</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Unsubscribes</div>
+        <div class="stat-value" id="modal-unsubscribes">—</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Complaints</div>
+        <div class="stat-value" id="modal-complaints">—</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-  const fmt = n => n == null ? '—' : Number(n).toLocaleString();
+  /* ── Helpers ── */
+  const fmt    = n => n == null ? '—' : Number(n).toLocaleString();
   const fmtPct = n => n == null ? '—' : n.toFixed(1) + '%';
 
   function rateClass(value, greenThreshold, yellowThreshold) {
@@ -285,64 +596,175 @@
     return 'rate-red';
   }
 
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC'
+    });
+  }
+
+  /* ── Tab switching ── */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ── Time filter ── */
+  let filterMode = 'all';
+
+  document.getElementById('filter-all').addEventListener('click', () => {
+    filterMode = 'all';
+    document.getElementById('filter-all').classList.add('active');
+    document.getElementById('filter-custom').classList.remove('active');
+    document.getElementById('filter-inputs').classList.remove('visible');
+    renderTables(allCampaigns);
+  });
+
+  document.getElementById('filter-custom').addEventListener('click', () => {
+    filterMode = 'custom';
+    document.getElementById('filter-custom').classList.add('active');
+    document.getElementById('filter-all').classList.remove('active');
+    document.getElementById('filter-inputs').classList.add('visible');
+    renderTables(allCampaigns);
+  });
+
+  document.getElementById('filter-from').addEventListener('change', () => renderTables(allCampaigns));
+  document.getElementById('filter-to').addEventListener('change', () => renderTables(allCampaigns));
+
+  function filteredCampaigns(campaigns) {
+    if (filterMode === 'all') return campaigns;
+    const from = document.getElementById('filter-from').value;
+    const to   = document.getElementById('filter-to').value;
+    return campaigns.filter(c => {
+      if (!c.sent_date) return true;
+      if (from && c.sent_date < from) return false;
+      if (to   && c.sent_date > to)   return false;
+      return true;
+    });
+  }
+
+  /* ── Campaign modal ── */
+  let allCampaigns = [];
+
+  function openModal(c) {
+    document.getElementById('modal-name').textContent    = c.name || '—';
+    document.getElementById('modal-subject').textContent = c.subject ? `"${c.subject}"` : '';
+    document.getElementById('modal-date').textContent    = c.sent_date ? `Sent ${fmtDate(c.sent_date)}` : '';
+
+    document.getElementById('modal-sent').textContent      = fmt(c.sent);
+    document.getElementById('modal-delivered').textContent = fmt(c.delivered);
+    document.getElementById('modal-opens').textContent     = fmt(c.unique_opens);
+    document.getElementById('modal-clicks').textContent    = fmt(c.unique_clicks);
+
+    const orEl = document.getElementById('modal-open-rate');
+    orEl.textContent = fmtPct(c.open_rate);
+    orEl.className   = 'stat-value ' + rateClass(c.open_rate, 30, 15);
+
+    const crEl = document.getElementById('modal-click-rate');
+    crEl.textContent = fmtPct(c.click_rate);
+    crEl.className   = 'stat-value ' + rateClass(c.click_rate, 3, 1);
+
+    document.getElementById('modal-hard-bounces').textContent  = fmt(c.hard_bounces);
+    document.getElementById('modal-soft-bounces').textContent  = fmt(c.soft_bounces);
+    document.getElementById('modal-unsubscribes').textContent  = fmt(c.unsubscriptions);
+    document.getElementById('modal-complaints').textContent    = fmt(c.complaints);
+
+    document.getElementById('campaign-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('campaign-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('campaign-modal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* ── Table rendering ── */
+  function renderTables(campaigns) {
+    const visible = filteredCampaigns(campaigns);
+    buildRecentSendsTable(visible);
+    buildMonthlyTable(visible);
+  }
+
   function buildRecentSendsTable(campaigns) {
     const tbody = document.getElementById('recent-sends-body');
     if (!campaigns || campaigns.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">No data yet</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted);padding:1rem 0.9rem">No campaigns match the selected range.</td></tr>';
       return;
     }
-    tbody.innerHTML = campaigns.map(c => {
-      const openCls = rateClass(c.open_rate, 30, 15);
+    tbody.innerHTML = campaigns.map((c, i) => {
+      const openCls  = rateClass(c.open_rate, 30, 15);
       const clickCls = rateClass(c.click_rate, 3, 1);
-      const date = c.sent_date
-        ? new Date(c.sent_date + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
-        : '—';
-      return `<tr>
+      return `<tr class="clickable" data-idx="${i}">
         <td class="campaign-name" title="${c.name}">${c.name || '—'}</td>
-        <td>${date}</td>
+        <td style="white-space:nowrap">${fmtDate(c.sent_date)}</td>
         <td>${fmt(c.delivered)}</td>
         <td class="${openCls}">${fmtPct(c.open_rate)}</td>
         <td class="${clickCls}">${fmtPct(c.click_rate)}</td>
+        <td class="row-hint">View details →</td>
       </tr>`;
     }).join('');
+
+    tbody.querySelectorAll('tr.clickable').forEach(row => {
+      row.addEventListener('click', () => {
+        openModal(filteredCampaigns(allCampaigns)[+row.dataset.idx]);
+      });
+    });
   }
 
   function buildMonthlyTable(campaigns) {
     const tbody = document.getElementById('monthly-body');
     if (!campaigns || campaigns.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">No data yet</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">No campaigns match the selected range.</td></tr>';
       return;
     }
 
     const months = {};
     for (const c of campaigns) {
       if (!c.sent_date) continue;
-      const month = c.sent_date.slice(0, 7); // YYYY-MM
-      if (!months[month]) months[month] = { sends: 0, delivered: 0, opens: 0, clicks: 0 };
-      months[month].sends++;
-      months[month].delivered += c.delivered || 0;
-      months[month].opens += c.unique_opens || 0;
-      months[month].clicks += c.unique_clicks || 0;
+      const m = c.sent_date.slice(0, 7);
+      if (!months[m]) months[m] = { sends: 0, delivered: 0, opens: 0, clicks: 0 };
+      months[m].sends++;
+      months[m].delivered += c.delivered || 0;
+      months[m].opens     += c.unique_opens || 0;
+      months[m].clicks    += c.unique_clicks || 0;
     }
 
     const sorted = Object.keys(months).sort().reverse();
+    if (!sorted.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:1rem 0.9rem">No data.</td></tr>';
+      return;
+    }
+
     tbody.innerHTML = sorted.map(m => {
-      const d = months[m];
-      const openRate = d.delivered > 0 ? d.opens / d.delivered * 100 : null;
+      const d         = months[m];
+      const openRate  = d.delivered > 0 ? d.opens  / d.delivered * 100 : null;
       const clickRate = d.delivered > 0 ? d.clicks / d.delivered * 100 : null;
-      const openCls = rateClass(openRate, 30, 15);
-      const clickCls = rateClass(clickRate, 3, 1);
-      const label = new Date(m + '-01T00:00:00Z').toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+      const label = new Date(m + '-01T00:00:00Z').toLocaleDateString('en-US', {
+        month: 'long', year: 'numeric', timeZone: 'UTC'
+      });
       return `<tr>
         <td>${label}</td>
         <td>${d.sends}</td>
-        <td class="${openCls}">${openRate != null ? openRate.toFixed(1) + '%' : '—'}</td>
-        <td class="${clickCls}">${clickRate != null ? clickRate.toFixed(1) + '%' : '—'}</td>
+        <td class="${rateClass(openRate, 30, 15)}">${openRate != null ? openRate.toFixed(1) + '%' : '—'}</td>
+        <td class="${rateClass(clickRate, 3, 1)}">${clickRate != null ? clickRate.toFixed(1) + '%' : '—'}</td>
         <td>${fmt(d.delivered)}</td>
       </tr>`;
     }).join('');
   }
 
+  /* ── Data loading ── */
   async function load() {
     try {
       const [auto, manual] = await Promise.all([
@@ -352,21 +774,23 @@
 
       const setCard = (id, value) => {
         const el = document.getElementById(id);
+        if (!el) return;
         el.textContent = value;
         if (value !== '—') el.classList.remove('loading');
       };
 
-      setCard('brevo-campaigns', fmt(auto.brevo?.email_campaigns));
+      setCard('brevo-campaigns',  fmt(auto.brevo?.email_campaigns));
       setCard('brevo-subscribers', fmt(auto.brevo?.subscriber_count));
-      setCard('brevo-open-rate', fmtPct(auto.brevo?.avg_open_rate));
+      setCard('brevo-open-rate',  fmtPct(auto.brevo?.avg_open_rate));
       setCard('brevo-click-rate', fmtPct(auto.brevo?.avg_click_rate));
+      setCard('linkedin-followers', fmt(manual.linkedin?.followers));
 
-      const liEl = document.getElementById('linkedin-followers');
-      liEl.textContent = fmt(manual.linkedin?.followers);
-      if (manual.linkedin?.followers) liEl.classList.remove('loading');
+      if (manual.linkedin?.followers) {
+        document.getElementById('linkedin-followers').classList.remove('loading');
+      }
 
-      buildRecentSendsTable(auto.brevo?.recent_campaigns);
-      buildMonthlyTable(auto.brevo?.recent_campaigns);
+      allCampaigns = auto.brevo?.recent_campaigns || [];
+      renderTables(allCampaigns);
 
       const updated = auto.last_updated
         ? new Date(auto.last_updated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
