@@ -35,20 +35,21 @@ jobs:
             > /tmp/brevo_contacts.json
           echo "Contacts response:"; cat /tmp/brevo_contacts.json
 
-          # Fetch last 20 sent campaigns with stats
+          # Fetch last 20 sent campaigns (basic info for IDs/names/dates)
           curl -s \
             -H "api-key: $BREVO_API_KEY" \
             -H "Accept: application/json" \
-            "https://api.brevo.com/v3/emailCampaigns?status=sent&limit=20&statistics=globalStats" \
+            "https://api.brevo.com/v3/emailCampaigns?status=sent&limit=20" \
             > /tmp/brevo_sent.json
           echo "Sent campaigns response:"; cat /tmp/brevo_sent.json
 
           NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          python3 - "$NOW" <<'PYEOF'
-          import sys, json
+          python3 - "$NOW" "$BREVO_API_KEY" <<'PYEOF'
+          import sys, json, urllib.request
 
           now = sys.argv[1]
+          api_key = sys.argv[2]
 
           with open('data/automated.json') as f:
               data = json.load(f)
@@ -75,11 +76,22 @@ jobs:
               total_opens = 0
               total_clicks = 0
               for c in campaigns:
-                  stats = c.get('statistics', {}).get('globalStats', {})
+                  # Fetch individual campaign for full globalStats
+                  try:
+                      req = urllib.request.Request(
+                          f"https://api.brevo.com/v3/emailCampaigns/{c['id']}",
+                          headers={'api-key': api_key, 'Accept': 'application/json'}
+                      )
+                      with urllib.request.urlopen(req) as resp:
+                          detail = json.loads(resp.read())
+                      stats = detail.get('statistics', {}).get('globalStats', {})
+                  except Exception as e:
+                      print(f"Error fetching campaign {c['id']}: {e}")
+                      stats = {}
                   delivered = stats.get('delivered', 0) or 0
                   opens = stats.get('uniqueViews', 0) or 0
                   clicks = stats.get('uniqueClicks', 0) or 0
-                  sent = stats.get('sent', 0) or 0
+                  sent_count = stats.get('sent', 0) or 0
                   open_rate = round(stats['opensRate'], 1) if stats.get('opensRate') is not None else (round(opens / delivered * 100, 1) if delivered > 0 else None)
                   click_rate = round(clicks / delivered * 100, 1) if delivered > 0 else None
                   recent.append({
@@ -87,7 +99,7 @@ jobs:
                       'name': c.get('name', ''),
                       'subject': c.get('subject', ''),
                       'sent_date': c.get('sentDate', '')[:10] if c.get('sentDate') else '',
-                      'sent': sent,
+                      'sent': sent_count,
                       'delivered': delivered,
                       'unique_opens': opens,
                       'unique_clicks': clicks,
