@@ -1,10 +1,121 @@
 {
   "brevo": {
     "email_campaigns": 86,
-    "subscriber_count": null,
+    "subscriber_count": 5727507,
     "avg_open_rate": null,
     "avg_click_rate": null,
-    "recent_campaigns": []
+    "recent_campaigns": [
+      {
+        "id": 346,
+        "name": "Product Newsletter - Apr 2026 (April 3rd 2026 - Present)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-05-05",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 345,
+        "name": "Product Newsletter - Apr 2026 (February 2nd - April 3rd 2026)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-05-04",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 344,
+        "name": "Product Newsletter - Apr 2026 (January 6th - February 2nd 2026)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-05-01",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 343,
+        "name": "Product Newsletter - Apr 2026 (December 9th - January 6th 2026)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-04-30",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 342,
+        "name": "Product Newsletter - Apr 2026 (November - December 9th 2025)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-04-29",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 341,
+        "name": "Product Newsletter - Apr 2026 (October 2025)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-04-28",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 340,
+        "name": "Product Newsletter - Apr 2026 (July - September 2025)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-04-27",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 339,
+        "name": "Product Newsletter - Apr 2026 (May - July 2025)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-04-24",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 338,
+        "name": "Product Newsletter - Apr 2026 (March - May 2025)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-04-23",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      },
+      {
+        "id": 337,
+        "name": "Product Newsletter - Apr 2026 (ROT - March 2025)",
+        "subject": "\ud83e\udd26 You've been tab-switching for nothing",
+        "sent_date": "2026-04-22",
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": null,
+        "click_rate": null
+      }
+    ]
   },
-  "last_updated": "2026-05-27T16:38:32Z"
+  "last_updated": "2026-05-27T16:43:24Z"
 }
