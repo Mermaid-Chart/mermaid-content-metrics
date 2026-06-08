@@ -1,10 +1,106 @@
 {
   "brevo": {
-    "email_campaigns": 86,
-    "subscriber_count": 5776180,
+    "email_campaigns": 88,
+    "subscriber_count": 5862205,
     "avg_open_rate": null,
     "avg_click_rate": null,
     "recent_campaigns": [
+      {
+        "id": 367,
+        "name": "Product Newsletter - May 2026 (January 6th - February 2nd 2026)",
+        "subject": "Say it. Style it. Sync it.",
+        "sent_date": "2026-06-05",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 385,
+        "name": "AgentFlow Alpha Access Recruitment",
+        "subject": "\ud83d\udc40 Visualize your AI workflow, then run it",
+        "sent_date": "2026-06-04",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 366,
+        "name": "Product Newsletter - May 2026 (December 9th - January 6th 2026)",
+        "subject": "Say it. Style it. Sync it.",
+        "sent_date": "2026-06-04",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 365,
+        "name": "Product Newsletter - May 2026 (November - December 9th 2025)",
+        "subject": "Say it. Style it. Sync it.",
+        "sent_date": "2026-06-03",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 364,
+        "name": "Product Newsletter - May 2026 (October 2025)",
+        "subject": "Say it. Style it. Sync it.",
+        "sent_date": "2026-06-02",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 363,
+        "name": "Product Newsletter - May 2026 (July - September 2025)",
+        "subject": "Say it. Style it. Sync it.",
+        "sent_date": "2026-06-01",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
       {
         "id": 362,
         "name": "Product Newsletter - May 2026 (May - July 2025)",
@@ -1239,5 +1335,5 @@
       }
     ]
   },
-  "last_updated": "2026-06-01T09:55:23Z"
+  "last_updated": "2026-06-08T09:40:59Z"
 }
