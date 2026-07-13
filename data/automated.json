@@ -1,7 +1,7 @@
 {
   "brevo": {
     "email_campaigns": 88,
-    "subscriber_count": 6133467,
+    "subscriber_count": 6187788,
     "avg_open_rate": null,
     "avg_click_rate": null,
     "recent_campaigns": [
@@ -1383,5 +1383,5 @@
       }
     ]
   },
-  "last_updated": "2026-07-06T09:25:48Z"
+  "last_updated": "2026-07-13T09:08:55Z"
 }
