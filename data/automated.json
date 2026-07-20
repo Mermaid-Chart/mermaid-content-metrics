@@ -1,10 +1,26 @@
 {
   "brevo": {
-    "email_campaigns": 88,
-    "subscriber_count": 6187788,
+    "email_campaigns": 100,
+    "subscriber_count": 6239150,
     "avg_open_rate": null,
     "avg_click_rate": null,
     "recent_campaigns": [
+      {
+        "id": 399,
+        "name": "Product Newsletter - July 2026 (ROT - March 2025)",
+        "subject": "We spent July closing the tabs \u2702\ufe0f",
+        "sent_date": "2026-07-18",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
       {
         "id": 393,
         "name": "Product Newsletter - May 2026 (May 5th - June 10th 2026)",
@@ -1383,5 +1399,5 @@
       }
     ]
   },
-  "last_updated": "2026-07-13T09:08:55Z"
+  "last_updated": "2026-07-20T09:06:27Z"
 }
