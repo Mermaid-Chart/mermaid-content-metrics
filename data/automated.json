@@ -1,10 +1,42 @@
 {
   "brevo": {
-    "email_campaigns": 100,
-    "subscriber_count": 6381854,
+    "email_campaigns": 102,
+    "subscriber_count": 6425202,
     "avg_open_rate": null,
     "avg_click_rate": null,
     "recent_campaigns": [
+      {
+        "id": 412,
+        "name": "Champions Sales Outreach",
+        "subject": "Getting Mermaid off your expense report",
+        "sent_date": "2026-08-13",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 414,
+        "name": "Champions Sales Outreach (Google)",
+        "subject": "Getting Mermaid off your expense report",
+        "sent_date": "2026-08-12",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
       {
         "id": 410,
         "name": "Product Newsletter - July 2026 (June 10th - July 16th 2026)",
@@ -1518,7 +1550,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1534,7 +1566,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1550,7 +1582,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1575,5 +1607,5 @@
       }
     ]
   },
-  "last_updated": "2026-08-10T08:34:19Z"
+  "last_updated": "2026-08-17T08:15:09Z"
 }
