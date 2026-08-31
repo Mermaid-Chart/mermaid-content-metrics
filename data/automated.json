@@ -1,10 +1,42 @@
 {
   "brevo": {
-    "email_campaigns": 103,
-    "subscriber_count": 6470246,
+    "email_campaigns": 116,
+    "subscriber_count": 6516865,
     "avg_open_rate": null,
     "avg_click_rate": null,
     "recent_campaigns": [
+      {
+        "id": 430,
+        "name": "Product Newsletter - August 2026 (March - May 2025)",
+        "subject": "The diagram was accurate on Tuesday \ud83d\udc94",
+        "sent_date": "2026-08-28",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 429,
+        "name": "Product Newsletter - August 2026 (ROT - March 2025)",
+        "subject": "The diagram was accurate on Tuesday \ud83d\udc94",
+        "sent_date": "2026-08-27",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
       {
         "id": 418,
         "name": "Admin Domain Lockdown",
@@ -1518,7 +1550,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1534,7 +1566,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1623,5 +1655,5 @@
       }
     ]
   },
-  "last_updated": "2026-08-24T08:17:22Z"
+  "last_updated": "2026-08-31T08:18:00Z"
 }
