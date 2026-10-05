@@ -1,10 +1,26 @@
 {
   "brevo": {
-    "email_campaigns": 116,
-    "subscriber_count": 6727063,
+    "email_campaigns": 117,
+    "subscriber_count": 6778037,
     "avg_open_rate": null,
     "avg_click_rate": null,
     "recent_campaigns": [
+      {
+        "id": 454,
+        "name": "Mermaid API Preview Testers",
+        "subject": "The Mermaid API is here. Want to help shape it?",
+        "sent_date": "2026-09-30",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
       {
         "id": 441,
         "name": "Product Newsletter - August 2026 (July 16th - August 26th 2026)",
@@ -1534,7 +1550,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1831,5 +1847,5 @@
       }
     ]
   },
-  "last_updated": "2026-09-28T08:22:43Z"
+  "last_updated": "2026-10-05T08:25:14Z"
 }
