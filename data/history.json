@@ -173,5 +173,13 @@
     "brevo_avg_open_rate": null,
     "brevo_avg_click_rate": null,
     "linkedin_followers": 0
+  },
+  {
+    "week": "2026-10-12",
+    "brevo_email_campaigns": 117,
+    "brevo_subscriber_count": 6827910,
+    "brevo_avg_open_rate": null,
+    "brevo_avg_click_rate": null,
+    "linkedin_followers": 0
   }
 ]
