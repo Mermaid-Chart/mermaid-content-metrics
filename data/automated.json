@@ -1,10 +1,58 @@
 {
   "brevo": {
-    "email_campaigns": 117,
-    "subscriber_count": 6951899,
+    "email_campaigns": 124,
+    "subscriber_count": 6983673,
     "avg_open_rate": null,
     "avg_click_rate": null,
     "recent_campaigns": [
+      {
+        "id": 468,
+        "name": "Mermaid API Beta (October - December 9th 2025)",
+        "subject": "Mermaid API is in open beta",
+        "sent_date": "2026-11-06",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 467,
+        "name": "Mermaid API Beta (May - September 2025)",
+        "subject": "Mermaid API is in open beta",
+        "sent_date": "2026-11-05",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
+      {
+        "id": 466,
+        "name": "Mermaid API Beta (ROT - May 2025)",
+        "subject": "Mermaid API is in open beta",
+        "sent_date": "2026-11-04",
+        "sent": 0,
+        "delivered": 0,
+        "unique_opens": 0,
+        "unique_clicks": 0,
+        "open_rate": 0,
+        "click_rate": null,
+        "hard_bounces": 0,
+        "soft_bounces": 0,
+        "unsubscriptions": 0,
+        "complaints": 0
+      },
       {
         "id": 454,
         "name": "Mermaid API Preview Testers",
@@ -1502,7 +1550,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1518,7 +1566,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1534,7 +1582,7 @@
         "delivered": 0,
         "unique_opens": 0,
         "unique_clicks": 0,
-        "open_rate": 0,
+        "open_rate": null,
         "click_rate": null,
         "hard_bounces": 0,
         "soft_bounces": 0,
@@ -1847,5 +1895,5 @@
       }
     ]
   },
-  "last_updated": "2026-11-02T08:11:31Z"
+  "last_updated": "2026-11-09T08:12:09Z"
 }
